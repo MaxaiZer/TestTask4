@@ -1,0 +1,26 @@
+services:
+  server1:
+    build:
+      context: .
+      dockerfile: Dockerfile_server
+    ports:
+      - "127.0.0.1:8081:8080"
+
+  server2:
+    build:
+      context: .
+      dockerfile: Dockerfile_server
+    ports:
+      - "127.0.0.1:8082:8080"
+
+  balancer:
+    build:
+      context: .
+      dockerfile: Dockerfile_balancer
+    environment:
+      PORT: 8080
+      CONFIG_PATH: /etc/app/configs/config.yaml
+    volumes:
+      - ./configs:/etc/app/configs
+    ports:
+      - "127.0.0.1:8080:8080"
